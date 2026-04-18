@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure OpenAI Chat</title>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, "Microsoft JhengHei", sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+
+        p.desc {
+            margin-top: 0;
+            margin-bottom: 24px;
+            color: #6b7280;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background: #fff;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 22px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .answer-box {
+            margin-top: 28px;
+            padding: 18px;
+            border-radius: 12px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+        }
+
+        .answer-box h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .answer-content {
+            white-space: pre-wrap;
+            line-height: 1.7;
+        }
+
+        .hint {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Azure OpenAI Chat</h1>
+        <p class="desc">Givem system role and user prompt, then send to Azure OpenAI for responnse.</p>
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="role">System Role</label>
+                <input
+                    type="text"
+                    id="role"
+                    name="role"
+                    value="{{ role | default('', true) }}"
+                    placeholder="For example, you are a travel professional."
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="q">User Prompt</label>
+                <textarea
+                    id="q"
+                    name="q"
+                    placeholder="For example, how would you introduce Ilan city in Taiwan?"
+                    required
+                >{{ q | default('', true) }}</textarea>
+            </div>
+
+            <button type="submit">Send</button>
+            <button type="button" onclick="clearForm()">Clear</button>
+        </form>
+
+        {% if answer is defined and answer %}
+        <div class="answer-box">
+            <h2>LLM Response</h2>
+            <div class="answer-content">{{ answer }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

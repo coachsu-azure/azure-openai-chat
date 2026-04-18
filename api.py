@@ -1,0 +1,93 @@
+"""
+    Azure Open AI Chat (API)
+"""
+import os
+import pathlib
+from dotenv import load_dotenv
+from openai import AzureOpenAI
+import openai
+from flask import Flask, request
+
+# Load .env if it exists
+env_path = pathlib.Path(".env")
+if env_path.exists():
+    load_dotenv(dotenv_path=env_path, override=True)
+
+# Set environment variables
+KEY = os.getenv('KEY')
+ENDPOINT = os.getenv('ENDPOINT')
+VERSION = os.getenv('VERSION')
+MODEL = os.getenv('MODEL')
+
+app = Flask(__name__)
+
+@app.route("/", methods=['GET', 'POST'])
+def chat():
+    """
+        role: the role played by LLM model
+        q: the question asked by user
+    """
+    role = request.args.get('role')
+    q = request.args.get('q')
+
+    if not (role and q):
+        return "Please provide role and q parameters."
+
+    try:
+        # Create the Azure OpenAI client
+        client = AzureOpenAI(
+            api_key=KEY,  
+            azure_endpoint=ENDPOINT,
+            api_version=VERSION
+        )
+
+        # A sample API call for chat completions looks as follows:
+        # Messages must be an array of message objects, where each object has 
+        # a role (either "system", "user", or "assistant") and 
+        # content (the content of the message).
+        response = client.chat.completions.create(
+            model=MODEL,
+            timeout=15,
+            messages=[
+                {"role": "system", "content": role},
+                {"role": "user", "content": q}
+            ]
+        )
+
+        # print the response
+        return response.choices[0].message.content
+
+    except openai.AuthenticationError as e:
+        # Handle Authentication error here, e.g. invalid API key
+        return f"OpenAI API returned an Authentication Error: {e}"
+
+    except openai.APIConnectionError as e:
+        # Handle connection error here
+        return f"Failed to connect to OpenAI API: {e}"
+
+    except openai.BadRequestError as e:
+        # Handle connection error here
+        return f"Invalid Request Error: {e}"
+
+    except openai.RateLimitError as e:
+        # Handle rate limit error
+        return f"OpenAI API request exceeded rate limit: {e}"
+
+    except openai.InternalServerError as e:
+        # Handle Service Unavailable error
+        return f"Service Unavailable: {e}"
+
+    except openai.APITimeoutError as e:
+        # Handle request timeout
+        return f"Request timed out: {e}"
+
+    except openai.APIError as e:
+        # Handle API error here, e.g. retry or log
+        return f"OpenAI API returned an API Error: {e}"
+
+    except:
+        # Handles all other exceptions
+        return f"An exception has occured."
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
