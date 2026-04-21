@@ -1,5 +1,5 @@
 # azure-openai-chat
-Azure Open AI Chat
+Sample Project for Azure Open AI Chat
 
 # Test Environment Setup
 1. (Recommended) Create a virtual environment
@@ -12,7 +12,7 @@ Azure Open AI Chat
 2. Add API key, endpoint, version, and model for Azure Open AI in `.env`
 
 # Test the Standalone Application (`app.py`)
-1. Modify `app.py` as needed (e.g., source language, target language, or the text to be translated).
+1. Modify `app.py` as needed (e.g., system role and query).
 2. Run `app.py`.
 
    `python app.py`

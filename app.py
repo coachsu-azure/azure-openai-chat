@@ -18,6 +18,12 @@ ENDPOINT = os.getenv('ENDPOINT')
 VERSION = os.getenv('VERSION')
 MODEL = os.getenv('MODEL')
 
+# Azure Open AI Chat parameters
+# System Role
+ROLE = "You are a travel professional."
+# Query
+QUERY = "How would you introduce Ilan city in Taiwan?"
+
 try:
     # Create the Azure OpenAI client
     client = AzureOpenAI(
@@ -33,8 +39,8 @@ try:
     response = client.chat.completions.create(
                   model=MODEL,
                   messages=[
-                        {"role": "system", "content": "You are a travel professional."},
-                        {"role": "user", "content": "How would you introduce Ilan city in Taiwan?"}
+                        {"role": "system", "content": ROLE},
+                        {"role": "user", "content": QUERY}
                     ]
                 )
 
