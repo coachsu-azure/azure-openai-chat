@@ -4,7 +4,7 @@
 import os
 import pathlib
 from dotenv import load_dotenv
-from openai import AzureOpenAI
+from openai import OpenAI
 import openai
 from flask import Flask, request
 
@@ -16,7 +16,6 @@ if env_path.exists():
 # Set environment variables
 KEY = os.getenv('KEY')
 ENDPOINT = os.getenv('ENDPOINT')
-VERSION = os.getenv('VERSION')
 MODEL = os.getenv('MODEL')
 
 app = Flask(__name__)
@@ -35,10 +34,9 @@ def chat():
 
     try:
         # Create the Azure OpenAI client
-        client = AzureOpenAI(
+        client = OpenAI(
             api_key=KEY,  
-            azure_endpoint=ENDPOINT,
-            api_version=VERSION
+            base_url=ENDPOINT
         )
 
         # A sample API call for chat completions looks as follows:

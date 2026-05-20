@@ -4,7 +4,7 @@
 import os
 import pathlib
 from dotenv import load_dotenv
-from openai import AzureOpenAI
+from openai import OpenAI
 import openai
 
 # Load .env if it exists
@@ -15,7 +15,6 @@ if env_path.exists():
 # Set environment variables
 KEY = os.getenv('KEY')
 ENDPOINT = os.getenv('ENDPOINT')
-VERSION = os.getenv('VERSION')
 MODEL = os.getenv('MODEL')
 
 # Azure Open AI Chat parameters
@@ -26,10 +25,9 @@ QUERY = "How would you introduce Ilan city in Taiwan?"
 
 try:
     # Create the Azure OpenAI client
-    client = AzureOpenAI(
+    client = OpenAI(
         api_key=KEY,  
-        azure_endpoint=ENDPOINT,
-        api_version=VERSION
+        base_url=ENDPOINT
     )
 
     # A sample API call for chat completions looks as follows:

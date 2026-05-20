@@ -9,7 +9,7 @@ Sample Project for Azure Open AI Chat
 
 # Update Environment Variables
 1. Copy `.env.example` to `.env`
-2. Add API key, endpoint, version, and model for Azure Open AI in `.env`
+2. Add API key, endpoint, and model for Azure Open AI in `.env`
 
 # Test the Standalone Application (`app.py`)
 1. Modify `app.py` as needed (e.g., system role and query).
@@ -21,7 +21,7 @@ Sample Project for Azure Open AI Chat
 1. Run `api.py`
 
    `python api.py`
-2. Open a web browser and navigate to [http://127.0.0.1:8080/?role=travel professional&q=introdce to Ilan city in Taiwan](http://127.0.0.1:8080/?role=travel%20professional&q=introdce%20to%20Ilan%20city%20in%20Taiwan)
+2. Open a web browser and navigate to [http://127.0.0.1:8080/?role=travel professional&q=introdce to Yilan city in Taiwan](http://127.0.0.1:8080/?role=travel%20professional&q=introdce%20to%20Yilan%20city%20in%20Taiwan)
 
 # Test the Web Application (`web.py`)
 1. Run `web.py`
